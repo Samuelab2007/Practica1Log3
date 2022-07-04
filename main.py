@@ -1,6 +1,4 @@
-from Player import *
-from tkinter import *
-
+from Clases.Player import *
 
 # raiz = Tk()
 rojo = Player("rojo", 4)
