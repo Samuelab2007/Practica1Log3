@@ -1,5 +1,12 @@
+import random
+
 from Clases.Pieces import Pieces
 
+
+def throwdices():       # Retorna una tupla con int aleatorios del 1 al 6, correspondientes a los dados
+    dado1 = random.randint(1, 6)
+    dado2 = random.randint(1, 6)
+    return dado1, dado2
 
 class Player:
 
