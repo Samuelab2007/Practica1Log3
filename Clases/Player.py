@@ -20,6 +20,7 @@ class Player:
         self._playerid = playerid
         self._color = color
         self._numberofpieces = numberofpieces
+        self._fichascoronadas = 0
         self._piecearray = list()
         for i in range(numberofpieces):  # Creo una lista con objetos de clase Pieces(son mis fichas)
             self._piecearray.append(Pieces(self._playerid, i))  # Estos objetos se identifican con números del 1 a n
@@ -30,6 +31,9 @@ class Player:
     def getid(self):
         return self._playerid
 
+    def getnumberofpieces(self):
+        return self._numberofpieces
+
     def algunafichamueve(self, datadices):  # Averigua si alguna pieza se puede mover, en ese caso retorna True
         dado1, dado2 = datadices
         sumadados = dado1 + dado2
@@ -38,4 +42,3 @@ class Player:
             if (dado1 in movimientos) or (dado2 in movimientos) or (sumadados in movimientos):
                 return True
         return False
-

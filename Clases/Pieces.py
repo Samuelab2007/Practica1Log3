@@ -12,13 +12,20 @@ class Pieces:
         self._relatedtoplayer = playeridentifier
         self._position = [playeridentifier, 0 % 17]  # La progresión es: [1,0] -> [2,0] -> [3,0] -> [0,0]
 
+    def getcoronada(self):
+        return self._coronada
+
     def getidentifier(self):
         return self._id
+
+    def getplayer(self):
+        return self._relatedtoplayer
 
     def getposition(self):
         return self._position
 
-    def setposition(self, cuadrante, posinterna):  # Existe con objetivos de testing, luego se debería eliminar esta funcion
+    def setposition(self, cuadrante,
+                    posinterna):  # Existe con objetivos de testing, luego se debería eliminar esta funcion
         self._position = [cuadrante, posinterna]
 
     def moverpieza(self, numberofsquares):
@@ -27,7 +34,8 @@ class Pieces:
             if numberofsquares == 8:
                 self._coronada = True
             else:
-                resultado = self._position[1] + numberofsquares  # Agrega a la posición en el bloque, si se pasa de 17 asume que pasó de cuadrante, el sobrante es la nueva subposicion.
+                resultado = self._position[
+                                1] + numberofsquares  # Agrega a la posición en el bloque, si se pasa de 17 asume que pasó de cuadrante, el sobrante es la nueva subposicion.
                 self._position[0] = (self._position[0] + resultado // 17) % 4
                 self._position[1] = resultado % 17
         else:
@@ -51,6 +59,30 @@ class Pieces:
             if position == 12:
                 return [5, 12]
 
+    def avanzarsincapturar(self, dictionary):  # TODO: Testear este método
+        key = tuple(self.getposition())
+        elementoyaexistente = dictionary.get(key)
+
+        listaelementosposicion = list()  # Creo lista vacía
+        listaelementosposicion.extend(
+            elementoyaexistente)  # Añado a la lista los elementos que encontré en la llave especificada
+        listaelementosposicion.append(self)  # Añado a la lista el elemento que quiero ubicar en el diccionario
+        dictionary[key] = listaelementosposicion  # Añado al diccionario la lista con todos los elementos
+
+    def capturaalavanzar(self, dictionary):  # Controla que ocurre al llegar a una casilla ya ocupada por una o varias fichas
+        # TODO: Testear este método
+
+        key = tuple(self.getposition())
+
+        elementoyaexistente = dictionary.get(key)  # Elemento relacionado con la llave en la que quiero insertar
+        if elementoyaexistente is None:
+            dictionary[key] = self  # Guarda en el diccionario
+        elif (type(elementoyaexistente) is list) or (type(elementoyaexistente) is Pieces):
+            if (key[1] != 0) and elementoyaexistente[0].getplayer() != self.getidentifier():  # Casillas "seguro" y la ficha es de otro jugador
+                dictionary[key] = self
+            else:
+                self.avanzarsincapturar(dictionary)
+
 # El proceso para moverse requiere: 1.  Un escaneo general de todos los movimientos de las fichas.
 # TODO:                             2.  El jugador selecciona la ficha que quiera mover.
 #                                   3.  Hace click en la cantidad que quiera mover según los dados.
@@ -59,4 +91,4 @@ class Pieces:
 #                                             En caso de que sí: (mueve la ficha y elimina el valor que movió(FALTA), continúa jugando y vuelve al paso 1)
 #                                             , en caso que no lo sea: (muestra un mensaje).
 
-#TODO: Para eliminar el valor que ya me desplazé de los dados, utilizo manejo de excepciones; si no se lanza el mensaje de movimiento ilegal supongo que me pude mover, por lo que elimino el dato que envié.
+# TODO: Para eliminar el valor que ya me desplazé de los dados, utilizo manejo de excepciones; si no se lanza el mensaje de movimiento ilegal supongo que me pude mover, por lo que elimino el dato que envié.
