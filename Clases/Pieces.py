@@ -7,6 +7,7 @@ class Pieces:
 
     def __init__(self, playeridentifier, pieceidentifier):
         self._coronada = False
+        self._encarcelada = False
         self._jugadorvinculado = playeridentifier
         self._id = pieceidentifier
         self._relatedtoplayer = playeridentifier
@@ -28,7 +29,7 @@ class Pieces:
                     posinterna):  # Existe con objetivos de testing, luego se debería eliminar esta funcion
         self._position = [cuadrante, posinterna]
 
-    def moverpieza(self, numberofsquares):
+    def moverpieza(self, numberofsquares, dictionary):
         casillasposibles = self.posibles_movimientos()  # Tupla con las casillas donde me puedo mover
         if numberofsquares in casillasposibles:  # Comprueba si la cantidad seleccionada está dentro de los movimientos posibles.
             if numberofsquares == 8:
@@ -36,10 +37,27 @@ class Pieces:
             else:
                 resultado = self._position[
                                 1] + numberofsquares  # Agrega a la posición en el bloque, si se pasa de 17 asume que pasó de cuadrante, el sobrante es la nueva subposicion.
+
+                self.eliminarposicionprecedente(dictionary)  # Elimino del diccionario la posicion que abandono
+
                 self._position[0] = (self._position[0] + resultado // 17) % 4
                 self._position[1] = resultado % 17
+
+                self.capturaalavanzar(dictionary)  # Capturo la casilla a la que me desplazo
         else:
             raise MovimientoInvalidoError()  # Lanza una excepción personalizada con el mensaje a mostrar en la interfaz
+
+    def eliminarposicionprecedente(self, dictionary):
+        key = tuple(self.getposition())
+        elementoanterior = dictionary.get(key)
+        if elementoanterior is list:
+            for ficha in elementoanterior:
+                deljugador = ficha.getplayer()
+                numeropieza = ficha.getidentifier()
+                if (deljugador == self.getplayer()) and (numeropieza == self.getidentifier()):
+                    elementoanterior.remove(ficha)
+        else:
+            dictionary.pop(key, "No existe")
 
     def llegafasefinal(self):
         if self._position == [(self._relatedtoplayer + 3) % 4, 12]:  # Indica la posicion del ultimo seguro
@@ -59,29 +77,45 @@ class Pieces:
             if position == 12:
                 return [5, 12]
 
-    def avanzarsincapturar(self, dictionary):  # TODO: Testear este método
+    def ponerenjuego(self):
+        self._encarcelada = False
+
+    def sacardejuego(self):
+        self._encarcelada = True
+
+    def avanzarsincapturar(self, dictionary):
         key = tuple(self.getposition())
         elementoyaexistente = dictionary.get(key)
-
         listaelementosposicion = list()  # Creo lista vacía
-        listaelementosposicion.extend(
-            elementoyaexistente)  # Añado a la lista los elementos que encontré en la llave especificada
+
+        if elementoyaexistente is list:
+            listaelementosposicion.extend(elementoyaexistente)  # Añado a la lista los elementos que encontré en la llave especificada
+        else:
+            listaelementosposicion.append(elementoyaexistente)
         listaelementosposicion.append(self)  # Añado a la lista el elemento que quiero ubicar en el diccionario
         dictionary[key] = listaelementosposicion  # Añado al diccionario la lista con todos los elementos
 
     def capturaalavanzar(self, dictionary):  # Controla que ocurre al llegar a una casilla ya ocupada por una o varias fichas
-        # TODO: Testear este método
 
         key = tuple(self.getposition())
 
         elementoyaexistente = dictionary.get(key)  # Elemento relacionado con la llave en la que quiero insertar
         if elementoyaexistente is None:
             dictionary[key] = self  # Guarda en el diccionario
-        elif (type(elementoyaexistente) is list) or (type(elementoyaexistente) is Pieces):
+        elif type(elementoyaexistente) is list:
             if (key[1] != 0) and elementoyaexistente[0].getplayer() != self.getidentifier():  # Casillas "seguro" y la ficha es de otro jugador
                 dictionary[key] = self
             else:
                 self.avanzarsincapturar(dictionary)
+        elif type(elementoyaexistente) is Pieces:
+            if (key[1] != 0) and elementoyaexistente.getplayer() != self.getidentifier():
+                dictionary[key] = self
+            else:
+                self.avanzarsincapturar(dictionary)
+
+    def __repr__(self):
+        return "Jugador: "+str(self.getplayer())+", pieza: "+str(self.getidentifier())
+
 
 # El proceso para moverse requiere: 1.  Un escaneo general de todos los movimientos de las fichas.
 # TODO:                             2.  El jugador selecciona la ficha que quiera mover.

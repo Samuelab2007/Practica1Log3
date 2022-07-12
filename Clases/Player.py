@@ -25,7 +25,7 @@ class Player:
         for i in range(numberofpieces):  # Creo una lista con objetos de clase Pieces(son mis fichas)
             self._piecearray.append(Pieces(self._playerid, i))  # Estos objetos se identifican con números del 1 a n
 
-    def getpiecearray(self):
+    def getpiecearray(self) -> list[Pieces]:
         return self._piecearray
 
     def getid(self):
@@ -42,3 +42,4 @@ class Player:
             if (dado1 in movimientos) or (dado2 in movimientos) or (sumadados in movimientos):
                 return True
         return False
+
