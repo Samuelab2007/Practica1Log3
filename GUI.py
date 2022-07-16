@@ -21,7 +21,6 @@ botonSoplar.grid(row=4, column=20, sticky="WENS")
 botonSuma = Button(miFrame, text="Suma", width=10)
 botonSuma.grid(row=2, column=20, sticky="WENS")
 
-FichaRoja1 = PhotoImage(file= 'D:\LEONARDO ARAQUE\Downloads\pngwing.com.png')
 
 #------------ BASES --------------
 baseRoja = Button(miFrame, text="BASE ROJA", bg="#e32314", fg="White")
@@ -256,5 +255,18 @@ bEscaAzul6 = Button(miFrame, width=10, bg="blue")
 bEscaAzul6.grid(row=13, column=9, sticky="WENS")
 bEscaAzul7 = Button(miFrame, width=10, bg="blue")
 bEscaAzul7.grid(row=12, column=9, sticky="WENS")
+
+#-------------------Fichas------------------------
+bFichaRoja = Button(miFrame, width=1, height=1, bg="#fc3d3d")
+bFichaRoja.grid(row=4, column=4)
+
+bFichaAzul = Button(miFrame, width=1, height=1, bg="#3d4dfc")
+bFichaAzul.grid(row=14, column=12)
+
+bFichaAmarilla = Button(miFrame, width=1, height=1, bg="#faf202")
+bFichaAmarilla.grid(row=14, column=4)
+
+bFichaVerde = Button(miFrame, width=1, height=1, bg="#4dfc3d")
+bFichaVerde.grid(row=4, column=12)
 
 raiz.mainloop()
