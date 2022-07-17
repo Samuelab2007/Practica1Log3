@@ -1,4 +1,5 @@
 from tkinter import *
+import random
 raiz = Tk()
 
 raiz.title("Parqués")
@@ -6,16 +7,26 @@ raiz.title("Parqués")
 miFrame = Frame(raiz)
 miFrame.pack()
 
+#prints a random value from the list
+list1 = [1, 2, 3, 4, 5, 6]
+
+
 
 #------------Pantalla--------------
 pantalla = Entry(miFrame, width=10)
 pantalla.grid(row=0, column=10, pady=10, columnspan=4, sticky="WENS")
-botonDado1 = Button(miFrame, text="dado1", width=3)
+
+def changeText():
+    botonDado1['text'] = random.choice(list1)
+    botonDado2['text'] = random.choice(list1)
+
+botonDado1 = Button(miFrame, text="dado1", width=3, command= changeText)
 botonDado1.grid(row=0, column=9, padx=5, pady=10, sticky="WENS")
+
 botonDado2 = Button(miFrame, text="dado2", width=3)
 botonDado2.grid(row=0, column=8, padx=5, pady=10, sticky="WENS")
 
-botonSoplar = Button(miFrame, text="Envigado", width=10)
+botonSoplar = Button(miFrame, text="Soplar", width=10)
 botonSoplar.grid(row=4, column=20, sticky="WENS")
 
 botonSuma = Button(miFrame, text="Suma", width=10)
@@ -205,38 +216,38 @@ bEscaVer7.grid(row=10, column=11, sticky="NS")
 
 #------------Tablero Inferior--------------
 b33 = Button(miFrame, width=10, bg="white")
-b33.grid(row=12, column=8, sticky="WENS")
+b33.grid(row=19, column=8, sticky="WENS")
 b32 = Button(miFrame, width=10, bg="white")
-b32.grid(row=13, column=8, sticky="WENS")
+b32.grid(row=18, column=8, sticky="WENS")
 b31 = Button(miFrame, width=10, bg="white")
-b31.grid(row=14, column=8, sticky="WENS")
+b31.grid(row=17, column=8, sticky="WENS")
 b30 = Button(miFrame, width=10, bg="white")
-b30.grid(row=15, column=8, sticky="WENS")
+b30.grid(row=16, column=8, sticky="WENS")
 bSeguro3 = Button(miFrame, width=10, bg="#F7DE3A",  text="★", fg="white")
-bSeguro3.grid(row=16, column=8, sticky="WENS")
+bSeguro3.grid(row=15, column=8, sticky="WENS")
 b28 = Button(miFrame, width=10, bg="white")
-b28.grid(row=17, column=8, sticky="WENS")
+b28.grid(row=14, column=8, sticky="WENS")
 b27 = Button(miFrame, width=10, bg="white")
-b27.grid(row=18, column=8, sticky="WENS")
+b27.grid(row=13, column=8, sticky="WENS")
 b26 = Button(miFrame, width=10, bg="white")
-b26.grid(row=19, column=8, sticky="WENS")
+b26.grid(row=12, column=8, sticky="WENS")
 
 b35 = Button(miFrame, width=10, bg="white")
-b35.grid(row=12, column=10, sticky="WENS")
+b35.grid(row=19, column=10, sticky="WENS")
 b36 = Button(miFrame, width=10, bg="white")
-b36.grid(row=13, column=10, sticky="WENS")
+b36.grid(row=18, column=10, sticky="WENS")
 b37 = Button(miFrame, width=10, bg="white")
-b37.grid(row=14, column=10, sticky="WENS")
+b37.grid(row=17, column=10, sticky="WENS")
 b38 = Button(miFrame, width=10, bg="white")
-b38.grid(row=15, column=10, sticky="WENS")
+b38.grid(row=16, column=10, sticky="WENS")
 bSalidaAzul = Button(miFrame, width=10, bg="blue")
-bSalidaAzul.grid(row=16, column=10, sticky="WENS")
+bSalidaAzul.grid(row=15, column=10, sticky="WENS")
 b40 = Button(miFrame, width=10, bg="white")
-b40.grid(row=17, column=10, sticky="WENS")
+b40.grid(row=14, column=10, sticky="WENS")
 b41 = Button(miFrame, width=10, bg="white")
-b41.grid(row=18, column=10, sticky="WENS")
+b41.grid(row=13, column=10, sticky="WENS")
 b42 = Button(miFrame, width=10, bg="white")
-b42.grid(row=19, column=10, sticky="WENS")
+b42.grid(row=12, column=10, sticky="WENS")
 
 #----Escalera Azul-----
 bSeguro4 = Button(miFrame, width=10, text="★", bg="blue", fg="White")
