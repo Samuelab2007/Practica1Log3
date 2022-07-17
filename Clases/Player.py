@@ -42,4 +42,3 @@ class Player:
             if (dado1 in movimientos) or (dado2 in movimientos) or (sumadados in movimientos):
                 return True
         return False
-

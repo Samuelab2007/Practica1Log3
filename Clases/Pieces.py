@@ -22,12 +22,16 @@ class Pieces:
     def getplayer(self):
         return self._relatedtoplayer
 
+    def setcarcel(self):
+        self._encarcelada = True
+
+    def liberar(self):
+        self._encarcelada = False
+
     def getposition(self):
         return self._position
 
-    def setposition(self, cuadrante,
-                    posinterna):  # Existe con objetivos de testing, luego se debería eliminar esta funcion
-        self._position = [cuadrante, posinterna]
+
 
     def moverpieza(self, numberofsquares, dictionary):
         casillasposibles = self.posibles_movimientos()  # Tupla con las casillas donde me puedo mover
@@ -55,6 +59,7 @@ class Pieces:
                 deljugador = ficha.getplayer()
                 numeropieza = ficha.getidentifier()
                 if (deljugador == self.getplayer()) and (numeropieza == self.getidentifier()):
+                    ficha.setcarcel()
                     elementoanterior.remove(ficha)
         else:
             dictionary.pop(key, "No existe")
